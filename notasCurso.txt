@@ -1,0 +1,86 @@
+////////proyecto///////////////////////
+-------------------------
+crear proyecto
+
+expo init nombreApp
+--------------------------
+iniciar expo
+
+expo login
+
+
+---------------------------
+carpetas
+app
+ screens
+ components
+//////////////////////////////////////////
+# instalando sistema de navegacion
+
+-react-navigation
+-instalar esta version 
+
+yarn add @react-navigation/native@~5.1.5
+
+expo install react-native-gesture-handler@~1.6.0
+expo install react-native-reanimated@~1.7.0
+expo install react-native-screens@~2.2.0
+expo install react-native-safe-area-context@~0.7.3
+expo install @react-native-community/masked-view@~0.1.6
+
+yarn add @react-navigation/stack@~5.2.10
+
+yarn add @react-navigation/bottom-tabs@~5.2.6
+
+////////////////////////////////////////////////////
+
+montando sistema de navegacion
+--------------------------------
+crear carpeta navigations
+
+
+----------------------------------------
+intalando componentes de navegacion
+
+yarn add react-native-elements@1.2.7
+
+------------------------------------
+/////////////////////////////////////////////////////////////////
+--------------------
+instalar firebase 
+-------------------
+yarn add firebase@~7.14.0
+
+tocar estar pendiente al mensaje para corregir version de firebase cuando iniciamos app
+--en este caso correguimos con la version solicitada
+
+yarn add firebase@~7.9.0
+
+------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
