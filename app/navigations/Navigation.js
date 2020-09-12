@@ -3,16 +3,15 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 //trayendo los screen 
 
-import Account from './screens/Counts';
-import Favorites from './screens/Favorites';
-import Parkings  from './screens/Parkings';
-import TopParkings from './screens/TopParkings';
-import Ubication from './screens/Ubication';
+import AccountStack from './AccountStack';
+import FavoriteStack from './FavoriteStack';
+import ParkingStack  from './ParkingStack';
+import TopParkingStack from './TopParkingStack';
+import UbicationStack from './UbicationStack';
 
 const Tab =createBottomTabNavigator();
 
 export default function Navigation(){
-    
     return (
         <NavigationContainer>
             <Tab.Navigator
@@ -30,31 +29,31 @@ export default function Navigation(){
                 
                 <Tab.Screen
                 name='ubication'
-                component={Ubication}
+                component={UbicationStack}
                 options={{title:"Ubicacion"}}
                  />
 
                  <Tab.Screen 
                  name='favorites'
-                 component={Favorites}
-                 options={{title:"Mis Favoritos"}}
+                 component={FavoriteStack}
+                 options={{title:"Favoritos"}}
                  />
 
                  <Tab.Screen
                  name='parkings'
-                 component={Parkings}
+                 component={ParkingStack}
                  options={{title:"Parqueaderos"}}
                   />
 
                 <Tab.Screen
                 name='top-parkings'
-                component={TopParkings}
+                component={TopParkingStack}
                 options={{title:"Top-5"}}
                  />
 
                 <Tab.Screen
                 name='accounts'
-                component={Account}
+                component={AccountStack}
                 options={{title:"Cuenta"}}
                 />
 
