@@ -19,7 +19,7 @@ export default function Navigation(){
                 initialRouteName='ubication' // app inicie en el boton restaurants
                 tabBarOptions={{   // se controla los colores del tabBar
                     inactiveTintColor:'#070707',//color general tabOptin
-                    activeTintColor:'#34CD0E',//color especifico
+                    activeTintColor:'#00A680',//color especifico
                 }}
 
                 // en esta parte cargo la funcion que me permitira cargar iconos

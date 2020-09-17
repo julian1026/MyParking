@@ -12,7 +12,7 @@ export default function UbicationStack(){
                 name='ubication'
                 component={Ubication}
                 options={
-                    {title:'Mi Ubication'}
+                    {title:'Mi Ubicacion'}
                 }
              />
         </Stack.Navigator>
