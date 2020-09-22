@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack'
 //importando screen 
 
 import Account from '../screens/Account/Account'
+import Login from '../screens/Account/Login'
 
 const Stack=createStackNavigator();
 
@@ -15,9 +16,15 @@ export default function AccountStack(){
             name='account'
             component={Account}
             options={{
-                title:'My Cuenta'
+                title:'Mi Cuenta'
             }}
              />
+
+             <Stack.Screen
+             name='login'
+             component={Login}
+             options={{title:'Iniciar Sesion'}}
+              />
         </Stack.Navigator>
     );
 

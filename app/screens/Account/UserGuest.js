@@ -1,8 +1,15 @@
 import React from 'react'
 import {View, Text, ScrollView, Image, StyleSheet} from 'react-native'
 import {Button} from 'react-native-elements'
+import {useNavigation} from '@react-navigation/native'
+
+
 
 export default function UserGuest(){
+
+    
+    const Navigation=useNavigation();
+    console.log(Navigation);
     return(
       <ScrollView 
         centerContent={true}
@@ -25,7 +32,7 @@ export default function UserGuest(){
                     title='Ver tu perfil'
                     buttonStyle={styles.BtnStyle}
                     containerStyle={styles.btnContainer}
-                    onPress={()=>console.log('diste click!!!')}
+                    onPress={()=>Navigation.navigate('login')}
                 />
             </View>
       </ScrollView>
@@ -41,6 +48,7 @@ const styles=StyleSheet.create({
         height:300,
         width:'100%',
         marginBottom:40,
+        marginTop:10
     },
     title:{
         fontWeight:'bold',
@@ -54,7 +62,7 @@ const styles=StyleSheet.create({
     },
     viewBtn:{
         flex:1,
-        alignItems:'center'
+        alignItems:'center',
     },
     BtnStyle:{
         backgroundColor:'#00a680',
