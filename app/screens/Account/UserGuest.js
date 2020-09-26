@@ -15,12 +15,17 @@ export default function UserGuest(){
         centerContent={true}
         style={styles.viewBody}
       
-      >
+      >   
+        
           <Image
             source={require("../../../assets/img/img3.png")}
             resizeMode='contain'
             style={styles.image}
            />
+            {/* <Text
+            style={[styles.nameLogo]} 
+            >MyParking</Text> */}
+
             <Text style={styles.title} >Consulta tu Perfil</Text>
             <Text style={styles.description}>
                 Busca y vizualiza los mejores parqueaderos que te brinda la ciudad
@@ -47,9 +52,16 @@ const styles=StyleSheet.create({
     image:{
         height:300,
         width:'100%',
-        marginBottom:40,
+        marginBottom:10,
         marginTop:10
     },
+    // nameLogo:{
+    //     fontWeight:'bold',
+    //     fontSize:24,
+    //     marginBottom:10,
+    //     textAlign:'center',
+    // },
+
     title:{
         fontWeight:'bold',
         fontSize:19,

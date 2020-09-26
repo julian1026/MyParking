@@ -57,7 +57,9 @@ tocar estar pendiente al mensaje para corregir version de firebase cuando inicia
 yarn add firebase@~7.9.0
 
 ------------------------------------------------
+instalar dependencia del teclado, permite que no se oculten los input
 
+yarn add react-native-keyboard-aware-scroll-view@~0.9.1
 
 
 
