@@ -61,11 +61,8 @@ instalar dependencia del teclado, permite que no se oculten los input
 
 yarn add react-native-keyboard-aware-scroll-view@~0.9.1
 
-
-
-
-
-
+--------------------
+yarn add lodash
 
 
 
