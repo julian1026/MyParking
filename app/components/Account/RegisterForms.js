@@ -4,25 +4,36 @@ import {View, StyleSheet} from 'react-native'
 import {Input, Icon, Button} from 'react-native-elements'
 import {validateEmail} from '../../utils/validations'
 import {size, isEmpty} from 'lodash'
+import * as firebase from 'firebase'
+import {useNavigation} from '@react-navigation/native'
 
-export default function RegisterForm(){
-    
+export default function RegisterForm(props){
+    const {toastRef}=props;
     const [showPass, setShowPass]=useState(false);
     const [showPassRepeat, setShowPassRepeat]=useState(false)
     const [FormData, setFormData] = useState(CapturarDatos())
+    const navigation=useNavigation();
 
     const onSubmit=()=>{       
         if(isEmpty(FormData.email)|| isEmpty(FormData.pass)|| isEmpty(FormData.repeatPass)){
-            console.log('todos los campos son requeridos')
+            toastRef.current.show('todos los campos son requeridos')
         }else if(!validateEmail(FormData.email)){
-            console.log('emeil no valido')
+            toastRef.current.show('email no valido')
         }else if(FormData.pass!==FormData.repeatPass){
-            console.log('las contrasena no coincide')
+            toastRef.current.show('la contraseña no coincide')
         }else if(size(FormData.pass)<6){
-            console.log('como minimo 6 caracteres')
+            toastRef.current.show('la contraseña como minimo seis caracteres')
         }
         else{
-            console.log('emeil ok')
+            firebase
+            .auth()
+            .createUserWithEmailAndPassword(FormData.email, FormData.pass)
+            .then(()=>{
+                navigation.navigate('account')
+            })
+            .catch(err=>{
+                toastRef.current.show('El email ya esta en uso, pruebe con otro')
+            });
         }
     }
     // console.log(FormData)
