@@ -61,10 +61,11 @@ instalar dependencia del teclado, permite que no se oculten los input
 
 yarn add react-native-keyboard-aware-scroll-view@~0.9.1
 
---------------------
+--------------------trae la libreria lodash-----------
 yarn add lodash
+-----------------mostrar mensajes de validacion
 
-
+yarn add react-native-easy-toast@~1.2.0
 
 
 
