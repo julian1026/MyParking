@@ -15,6 +15,7 @@
     "add": "^2.0.6",
     "expo": "~38.0.8",
     "expo-cli": "^3.27.13",
+    "expo-facebook": "~8.1.0",
     "expo-status-bar": "^1.0.2",
     "firebase": "~7.9.0",
     "global": "^4.4.0",

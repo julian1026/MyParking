@@ -68,6 +68,9 @@ yarn add lodash
 yarn add react-native-easy-toast@~1.2.0
 
 
+-------instalar paquetes de facebook--------------
+yarn add expo-facebook@~8.1.0
+
 
 
 

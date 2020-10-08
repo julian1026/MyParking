@@ -43,9 +43,7 @@ export default function LoginForm(props){
                 setloading(false);
                 toastRef.current.show('El email no esta regristrado')
             });
-
-        }
-        
+        }  
     }
 
     return(
