@@ -73,7 +73,12 @@ yarn add expo-facebook@~8.1.0
 
 
 
+------------ dejando acceder a los recursos del celular
 
+ yarn add expo-permissions@~8.1.0
+
+---permite selecionar imagen
+yarn add expo-image-picker@~8.1.0
 
 
 

@@ -22,7 +22,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "android":{},
+    "android":{
+      "permissions":["CAMERA_ROLL","READ_EXTERNAL_STORAGE","WRITE_EXTERNAL_STORAGE"]
+    },
     "description": ""
   }
 }
