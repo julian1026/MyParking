@@ -1,11 +1,14 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { ColorPropType } from 'react-native';
+import {View, Text, StyleSheet,TextInput,Button} from 'react-native';
 
+import Maps from '../components/Account/maps'
 export default function Ubication(){
     return(
-        <View   style={styles.container}>
-            <Text>Ubication</Text>
-        </View>
+        
+            <Maps />
+        
+
     );
 }
 

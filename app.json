@@ -22,9 +22,16 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "android":{
-      "permissions":["CAMERA_ROLL","READ_EXTERNAL_STORAGE","WRITE_EXTERNAL_STORAGE"]
-    },
-    "description": ""
-  }
+    "android": {
+      "permissions": [
+        "CAMERA_ROLL",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "package": "com.julian971026.MyParking",
+      "config":{
+        "googleMaps":{"apiKey": "AIzaSyCGZwlKBJJT8G2sB3LeKkHhoqtou98XCaQ"}
+    }
+   }
+ }
 }
