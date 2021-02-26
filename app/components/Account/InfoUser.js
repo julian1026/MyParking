@@ -5,20 +5,23 @@ import * as firebase from "firebase";
 import defaultAvatar from '../../../assets/img/avatar-default.jpg';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
+import { assign } from "lodash";
 
 export default function InfoUSer(props){
     const {
-        userInfo:{photoURL,displayName,email},
-        toastRef
+        userInfo:{uid,photoURL,displayName,email},
+        toastRef,
+        setloading,
+        setLoadigText
     }=props;
-    
+    // console.log(props.userInfo)
     const changeAvatar = async () => {
+      console.log('julian');
       const resultPermission = await Permissions.askAsync(
-        Permissions.CAMERA_ROLL
+        Permissions.CAMERA_ROLL 
       );
-      //console.log(resultPermission);
-      const resultPermissionCamera =
-        resultPermission.permissions.cameraRoll.status;
+      console.log(resultPermission);
+      const resultPermissionCamera =resultPermission.permissions.cameraRoll.status;
   
       if (resultPermissionCamera === "denied") {
         toastRef.current.show("Es necesario aceptar los permisos de la galeria");
@@ -26,16 +29,22 @@ export default function InfoUSer(props){
         const result = await ImagePicker.launchImageLibraryAsync({
           allowsEditing: true,
           aspect: [4, 3],
+          
         });
+        console.log(result);
 
         if (result.cancelled) {
           toastRef.current.show("Has cerrado la seleccion de imagenes");
         } else {
           uploadImage(result.uri)
             .then(() => {
+              console.log('image subida');
+
               updatePhotoUrl();
             })
             .catch(() => {
+              console.log('image no subida');
+              // console.log(result.uri);
               toastRef.current.show("Error al actualizar el avatar.");
             });
         }
@@ -43,26 +52,49 @@ export default function InfoUSer(props){
   }
   
   const uploadImage = async (uri) => {
-    setLoadingText("Actualizando Avatar");
-    setLoading(true);
+    // console.log(uri);
+
+    setLoadigText("Actualizando Avatar");
+    setloading(true);//mostrando mensaje mientras actualiza imagen
 
     const response = await fetch(uri);
-    const blob = await response.blob();
+    // console.log(JSON.stringify(response));
 
-    const ref = firebase.storage().ref().child(`avatar/${uid}`);
+    const blob = await response.blob();
+    // console.log(JSON.stringify(blob));
+    const ref = firebase.storage().ref().child(`avatar/${uid}`);//guardando la imagen en esta ruta
     return ref.put(blob);
+  };
+  //UTILIZO EL MISMO UID DEL USUARIO PARA TENER SOLO UN IDENTIFICA
+  // Y PODER CAMBIAR LA IMAGEN
+  const updatePhotoUrl=()=>{
+    firebase
+    .storage()
+    .ref(`avatar/${uid}`)
+    .getDownloadURL()
+    .then(async(response) =>{
+      const update={
+        photoURL:response,
+      };
+      await firebase.auth().currentUser.updateProfile(update);//actualizo imagen
+      console.log("imagen actualizada");
+      setloading(false);
+    })
+    .catch(()=>{
+      toastRef.current.show("Error al actualizar el avatar.");
+    })  
   };
 
 
-
     return(
-        <View style={styles.viewUserInfo}>
+        <View style={styles.viewUserInfo} >
             <Avatar
                 rounded
                 size="large"
                 showEditButton
+                
                 onEditPress={changeAvatar}
-                containerStyle={styles.userInfoAvatar}
+                containerStyle={styles.userInfoAvatar}     
                 source={ 
                     photoURL
                      ?{uri:photoURL}

@@ -5,10 +5,7 @@ import {View, Text, StyleSheet,TextInput,Button} from 'react-native';
 import Maps from '../components/Account/maps'
 export default function Ubication(){
     return(
-        
             <Maps />
-        
-
     );
 }
 

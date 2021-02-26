@@ -5,13 +5,14 @@ import Toast from 'react-native-easy-toast';
 import * as firebase from 'firebase';
 import Loading from '../../components/Loading';
 import InfoUser from '../../components/Account/InfoUser';
+import { set } from 'lodash';
+import AccountOptions from '../../components/Account/AccountOptions';
 
 export default function UserLogged(){
     const [userInfo, setUserInfo] = useState(null);
     const [loading, setloading] = useState(false);
     const toastRef=useRef();
     const [loadigText, setLoadigText] = useState('');
-
     useEffect(() => {
         (async()=>{
             const user=await firebase.auth().currentUser;
@@ -21,9 +22,14 @@ export default function UserLogged(){
 
     return(
         <View style={styles.viewUserInfo} >
-            {userInfo && <InfoUser userInfo={userInfo} toastRef={toastRef} /> }
+            {userInfo && <InfoUser
+                 userInfo={userInfo}
+                  toastRef={toastRef}
+                  setloading={setloading}
+                  setLoadigText={setLoadigText} /> }
             
-            <Text>AccountOptions...</Text>
+            {/* <Text>AccountOptions...</Text> */}
+            <AccountOptions />
 
 
             <Button 
@@ -43,6 +49,7 @@ const styles=StyleSheet.create({
     viewUserInfo:{
         minHeight:'100%',
         backgroundColor:'#f2f2f2'
+        
     },
     btnCloseSession:{
         marginTop:30,

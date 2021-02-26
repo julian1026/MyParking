@@ -12,7 +12,7 @@ export default function UbicationStack(){
                 name='ubication'
                 component={Ubication}
                 options={
-                    {title:'Ubicacion de Parqueaderos'}
+                    {title:'Parqueaderos de la Zona'}
                 }
              />
         </Stack.Navigator>
