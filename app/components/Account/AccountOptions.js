@@ -1,15 +1,53 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {StyleSheet,View,Text} from 'react-native';
 import {ListItem} from "react-native-elements";
 import {map} from 'lodash';
+import Modal from "../modal"
+
+
+import ChangeDisplayNameForm from './ChangeDisplayNameForm';
 
 export default function AccountOptions(props){
-    const {userInfo, toasRef}=props;
+    const {userInfo, toasRef,setReloadUseInfo}=props;
 
+    const [showModal,setShowModal] = useState(true);
+    /* esta constante es la encargada de rendrizar que componente se muestra en el modal */
+    const [renderComponent,setRenderComponent]=useState(null);
+    
 
+    /*dependiendo del valor que trae la variable se ejecutara una accion*/
     const selectComponent=(key)=>{
-      console.log("Click");
-      console.log(key);
+      switch (key) {
+          case "displayName":
+              setRenderComponent(
+                   <ChangeDisplayNameForm
+                   displayName={userInfo.displayName}
+                   setShowModal={setShowModal}
+                   toasRef={toasRef}
+                   setReloadUseInfo={setReloadUseInfo}
+                 />);
+              setShowModal(true);
+              
+              break;
+
+            case "email":
+                setRenderComponent(<Text>Cambiando email</Text>);
+                setShowModal(true);
+                
+                break;
+
+            case "password":
+              setRenderComponent(<Text>Cambiando password</Text>);
+              setShowModal(true);
+              
+              break;
+      
+          default:
+              setRenderComponent(null);
+              setShowModal(false);
+
+              break;
+      }
     }
     const menuOptions=generateOptions(selectComponent);
     // console.log(menuOptions);
@@ -35,6 +73,15 @@ export default function AccountOptions(props){
                     onPress={menu.onPress}
                      />
             ))}
+            {renderComponent &&(
+
+            <Modal
+            isVisible={showModal}
+            setIsVisible={setShowModal}
+             >
+                {renderComponent}       
+            </Modal>
+             )}
         </View>
     );
 }

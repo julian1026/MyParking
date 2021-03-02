@@ -13,12 +13,17 @@ export default function UserLogged(){
     const [loading, setloading] = useState(false);
     const toastRef=useRef();
     const [loadigText, setLoadigText] = useState('');
+    const [reloadUseInfo, setReloadUseInfo] = useState(false);
+
+
     useEffect(() => {
         (async()=>{
             const user=await firebase.auth().currentUser;
             setUserInfo(user);
         })()
-    }, [])
+        setReloadUseInfo(false);
+    },
+     [reloadUseInfo])
 
     return(
         <View style={styles.viewUserInfo} >
@@ -29,7 +34,11 @@ export default function UserLogged(){
                   setLoadigText={setLoadigText} /> }
             
             {/* <Text>AccountOptions...</Text> */}
-            <AccountOptions />
+            <AccountOptions
+            userInfo={userInfo}
+            toastRef={toastRef}
+            setReloadUseInfo={setReloadUseInfo}
+            />
 
 
             <Button 
