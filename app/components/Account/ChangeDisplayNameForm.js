@@ -6,6 +6,7 @@ import { set } from 'lodash';
 
 
 export default function ChangeDisplayNameForm(props){
+
     const {displayName,setShowModal,toasRef,setReloadUseInfo}=props;
     const [newDisplayName, setNewDisplayName]=useState(null);
     const [error, setError] = useState(null);
@@ -27,7 +28,7 @@ export default function ChangeDisplayNameForm(props){
             .auth()
             .currentUser.updateProfile(update)
             .then(()=>{
-                console.log('ok');
+                // console.log('ok');
                 setIsLoading(false);//cerrando el spiner de carga
                 setReloadUseInfo(true);
                 setShowModal(false);//cerrando el modal

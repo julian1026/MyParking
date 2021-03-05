@@ -6,38 +6,53 @@ import Modal from "../modal"
 
 
 import ChangeDisplayNameForm from './ChangeDisplayNameForm';
+import ChangeEmailForm from './ChangeEmailForm';
+import ChangePasswordForm  from './ChangePasswordForm';
+
+
 
 export default function AccountOptions(props){
-    const {userInfo, toasRef,setReloadUseInfo}=props;
+    const {userInfo, toastRef,setReloadUseInfo}=props;
 
     const [showModal,setShowModal] = useState(true);
     /* esta constante es la encargada de rendrizar que componente se muestra en el modal */
     const [renderComponent,setRenderComponent]=useState(null);
     
-
+console.log(userInfo);
     /*dependiendo del valor que trae la variable se ejecutara una accion*/
     const selectComponent=(key)=>{
       switch (key) {
           case "displayName":
               setRenderComponent(
                    <ChangeDisplayNameForm
-                   displayName={userInfo.displayName}
-                   setShowModal={setShowModal}
-                   toasRef={toasRef}
-                   setReloadUseInfo={setReloadUseInfo}
+                    displayName={userInfo.displayName}
+                    setShowModal={setShowModal}
+                    toastRef={toastRef}
+                    setReloadUseInfo={setReloadUseInfo}
                  />);
               setShowModal(true);
               
               break;
 
             case "email":
-                setRenderComponent(<Text>Cambiando email</Text>);
+                setRenderComponent(
+                    <ChangeEmailForm
+                        email={userInfo.email}
+                        setShowModal={setShowModal}
+                        toastRef={toastRef}
+                        setReloadUseInfo={setReloadUseInfo}
+                     />
+                );
                 setShowModal(true);
                 
                 break;
 
             case "password":
-              setRenderComponent(<Text>Cambiando password</Text>);
+              setRenderComponent(
+              <ChangePasswordForm
+                setShowModal={setShowModal}
+                toastRef={toastRef}
+                 />);
               setShowModal(true);
               
               break;
