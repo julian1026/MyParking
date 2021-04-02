@@ -13,8 +13,8 @@ import ChangePasswordForm  from './ChangePasswordForm';
 
 export default function AccountOptions(props){
     const {userInfo, toastRef,setReloadUseInfo}=props;
-
     const [showModal,setShowModal] = useState(true);
+    
     /* esta constante es la encargada de rendrizar que componente se muestra en el modal */
     const [renderComponent,setRenderComponent]=useState(null);
     

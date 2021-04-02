@@ -57,7 +57,9 @@ export default function ChangeEmailForm(props){
 
     
     const onChange=(e,type)=>{
+        
         setFormData({...formData,[type]: e.nativeEvent.text})
+        console.log(type);
     }
  
     return(

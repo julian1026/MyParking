@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import { StyleSheet, Text, View } from "react-native";
 import MapView from 'react-native-maps';
+
+
 class Maps extends Component{
     constructor(props) {
         super(props);
@@ -9,11 +11,18 @@ class Maps extends Component{
           isLoading: true,
           markers: [],
         };
+        this.arreglo=[1,2,3,4,5,6];
       }
+      
+     
+     
+
+
       fetchMarkerData() {
         fetch('https://feeds.citibikenyc.com/stations/stations.json')
           .then((response) => response.json())
           .then((responseJson) => {
+            console.log(responseJson.stationBeanList);
             this.setState({ 
               isLoading: false,
               markers: responseJson.stationBeanList, 
@@ -29,7 +38,20 @@ class Maps extends Component{
     }
 
 
+    componentDidMount() {
+      this.fetchMarkerData();
+  }
+
+
+
   render() {
+    this.arreglo.map((valor)=>{
+      let w='';
+      for(let i=0; i<valor ; i++){
+        w+='*';
+      }
+      console.log(w);
+    })
     return (
         <MapView
         style={{ flex: 1 }}
@@ -63,3 +85,4 @@ class Maps extends Component{
   }
 }
 export default Maps;
+
