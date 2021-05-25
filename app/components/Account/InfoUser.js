@@ -16,7 +16,7 @@ export default function InfoUSer(props){
     }=props;
     // console.log(props.userInfo)
     const changeAvatar = async () => {
-      console.log('julian');
+      // console.log('julian');
       const resultPermission = await Permissions.askAsync(
         Permissions.CAMERA_ROLL 
       );
@@ -29,9 +29,10 @@ export default function InfoUSer(props){
         const result = await ImagePicker.launchImageLibraryAsync({
           allowsEditing: true,
           aspect: [4, 3],
-          
         });
+
         console.log(result);
+
 
         if (result.cancelled) {
           toastRef.current.show("Has cerrado la seleccion de imagenes");

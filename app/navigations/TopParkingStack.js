@@ -11,7 +11,7 @@ export default function TopParkingStack(){
                 name='top-parkings'
                 component={TopParkings}
                 options={
-                    {title:'top-5 Parkings'}
+                    {title:'top- Parkings'}
                 }
              />
         </Stack.Navigator>
