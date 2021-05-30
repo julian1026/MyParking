@@ -1,13 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, ScrollView, Alert, Dimensions, Text } from 'react-native'
-import { Icon, Avatar, Image, Input, Button } from 'react-native-elements'
-import { map, size, filter } from 'lodash'
-import MapView from 'react-native-maps'
-import * as Permissions from 'expo-permissions'
-import * as Location from 'expo-location'
-import * as ImagePicker from 'expo-image-picker'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, ScrollView, Alert, Dimensions, Text } from 'react-native';
+import { Icon, Avatar, Image, Input, Button } from 'react-native-elements';
+import { map, size, filter } from 'lodash';
+import MapView from 'react-native-maps';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
+import * as ImagePicker from 'expo-image-picker';
+import Modal from '../modal';
+import uuid from 'random-uuid-v4';
 
-import Modal from '../modal'
+import { firebaseApp } from '../../utils/firebase';
+import firebase from 'firebase/app';
+import 'firebase/storage';
+import "firebase/firestore";
+
+const db = firebase.firestore(firebaseApp);
+
 
 
 const widthScreen = Dimensions.get("window").width;
@@ -24,11 +32,70 @@ export default function AddParkingForm(props) {
 
 
     const addParking = () => {
+
         console.log(ubicationParking)
         console.log(imageSelected);
         console.log('parkingName : ' + parkingName);
         console.log('addres: ' + addres);
         console.log('description:' + description);
+
+        if (!parkingName || !addres || !description) {
+            toastRef.current.show("Todos los campos del formulario son obligatorios", 1000)
+        } else if (size(imageSelected) === 0) {
+            toastRef.current.show("El parqueadero debe de tener almenos una foto", 1000)
+        } else if (!ubicationParking) {
+            toastRef.current.show("Tienes que localizar el parqueadero en el mapa", 1000)
+        } else {
+            setIsloading(true);
+            uploadImageStorage().then((response) => {
+
+                db.collection("parqueaderos")
+                    .add({
+                        nombre: parkingName,
+                        direccion: addres,
+                        descripcion: description,
+                        locacion: ubicationParking,
+                        imagenes: response,
+                        rating: 0,
+                        ratingTotal: 0,
+                        quantityVoting: 0,
+                        createAt: new Date(),
+                        createBy: firebase.auth().currentUser.uid,
+                    })
+                    .then(() => {
+                        setIsloading(false);
+                        navigation.navigate("parkings2")
+                    }).catch((err) => {
+                        setIsloading(false);
+                        toastRef.current.show("Error al guardar el parqueadero, intentelo mas tarde");
+                    })
+            });
+        }
+
+    }
+
+    const uploadImageStorage = async () => {
+        const imageBlob = [];
+        await Promise.all(
+
+            map(imageSelected, async (image) => {
+                const response = await fetch(image);
+                const blob = await response.blob();
+
+                const ref = firebase.storage().ref("parkingImage").child(uuid());
+                await ref.put(blob).then(async (result) => {
+                    await firebase
+                        .storage()
+                        .ref(`parkingImage/${result.metadata.name}`)
+                        .getDownloadURL()
+                        .then((photoUrl) => {
+                            imageBlob.push(photoUrl);
+                        });
+                })
+            })
+        )
+        return imageBlob;
+
     }
 
     return (
@@ -186,7 +253,7 @@ function FormAdd(props) {
                 rightIcon={{
                     type: "material-community",
                     name: "google-maps",
-                    color: "#d32f2f",
+                    color: ubicationParking ? "#00a680" : "#d32f2f",
 
                     onPress: () => setIsVisibleMap(true)
                 }}
