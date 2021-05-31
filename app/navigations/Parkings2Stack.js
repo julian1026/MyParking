@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Parkings2 from '../screens/parkings2/parkings2'
 import AddParkings2 from '../screens/parkings2/addParking2'
+import Parking2 from '../screens/parkings2/parking2'
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,10 @@ export default function ParkingStack() {
                 options={{
                     title: 'Agregar Parqueadero'
                 }}
+            />
+            <Stack.Screen
+                name='parking2'
+                component={Parking2}
             />
         </Stack.Navigator>
     );

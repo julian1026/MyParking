@@ -30,14 +30,8 @@ export default function AddParkingForm(props) {
     const [ubicationParking, setUbicationParking] = useState(null);
 
 
-
+    //funcion  que guarda la informacion en firestore
     const addParking = () => {
-
-        console.log(ubicationParking)
-        console.log(imageSelected);
-        console.log('parkingName : ' + parkingName);
-        console.log('addres: ' + addres);
-        console.log('description:' + description);
 
         if (!parkingName || !addres || !description) {
             toastRef.current.show("Todos los campos del formulario son obligatorios", 1000)
