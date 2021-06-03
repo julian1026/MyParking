@@ -68,6 +68,8 @@ export default function AddParkingForm(props) {
 
     }
 
+
+    //funcion  que  guarda las imagenes en firebase storage
     const uploadImageStorage = async () => {
         const imageBlob = [];
         await Promise.all(

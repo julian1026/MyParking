@@ -82,7 +82,7 @@ function Parqueadero(props) {
 
     return (
         <TouchableOpacity
-            onPress={irParqueadero}
+            onPress={irParqueadero}//viajando a pantalla especifica de un parqueadero
         >
             <View style={styles.viewParking}>
                 <View style={styles.viewParkingImage}>

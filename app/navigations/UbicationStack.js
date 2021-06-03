@@ -1,20 +1,20 @@
 import React from 'react'
-import {createStackNavigator} from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 
-import Ubication from '../screens/Ubication'
+import Ubication from '../screens/Ubication/Ubication'
 
-const Stack=createStackNavigator();
+const Stack = createStackNavigator();
 
-export default function UbicationStack(){
-    return(
+export default function UbicationStack() {
+    return (
         <Stack.Navigator>
             <Stack.Screen
                 name='ubication'
                 component={Ubication}
                 options={
-                    {title:'Parqueaderos de la Zona'}
+                    { title: 'Parqueaderos de la Zona' }
                 }
-             />
+            />
         </Stack.Navigator>
     );
 }

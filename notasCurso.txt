@@ -80,8 +80,12 @@ yarn add expo-facebook@~8.1.0
 ---permite selecionar imagen
 yarn add expo-image-picker@~8.1.0
 
+--componente carrusel para imagenes
 
+yarn add react-native-snap-carousel@~3.9.0
 
+==componente de google maps
+yarn add react-native-open-maps@~0.3.5
 
 
 
