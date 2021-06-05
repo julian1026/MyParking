@@ -13,7 +13,7 @@ export default function Reviews(props) {
 
     firebaseApp.auth().onAuthStateChanged((user) => {
         user ? setUserLogged(true) : setUserLogged(false);
-        console.log(user);
+        // console.log(user);
     })
 
     return (
@@ -28,6 +28,9 @@ export default function Reviews(props) {
                         name: "square-edit-outline",
                         color: "#fff"
                     }}
+                    onPress={() => navigation.navigate("addReviewParking", {
+                        idParking: idParking
+                    })}
                 />
             ) : (
                 <View>

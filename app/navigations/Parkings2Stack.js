@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Parkings2 from '../screens/parkings2/parkings2'
 import AddParkings2 from '../screens/parkings2/addParking2'
 import Parking2 from '../screens/parkings2/parking2'
+import AddReviewParking from '../screens/parkings2/addReviewParking'
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,11 @@ export default function ParkingStack() {
             <Stack.Screen
                 name='parking2'
                 component={Parking2}
+            />
+            <Stack.Screen
+                name='addReviewParking'
+                component={AddReviewParking}
+                options={{ title: "Nuevo Comentario" }}
             />
         </Stack.Navigator>
     );
