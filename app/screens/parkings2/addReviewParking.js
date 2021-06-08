@@ -3,6 +3,10 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { AirbnbRating, Input, Button } from 'react-native-elements';
 import Toast from "react-native-easy-toast";
 import Loading from "../../components/Loading";
+import { firebaseApp } from '../../utils/firebase'
+import firebase from 'firebase/app'
+import "firebase/firestore";
+const db = firebase.firestore(firebaseApp);
 
 export default function AddReviewParking(props) {
     const { navigation, route } = props;
@@ -14,9 +18,6 @@ export default function AddReviewParking(props) {
     const toastRef = useRef();
 
     const enviarReview = () => {
-        console.log(rating)
-        console.log(titulo)
-        console.log(review)
         if (!rating) {
             toastRef.current.show("No has dado ninguna putuacion");
         } else if (!titulo) {
@@ -24,9 +25,49 @@ export default function AddReviewParking(props) {
         } else if (!review) {
             toastRef.current.show("El comentatio es obligatorio");
         } else {
-            console.log("ok campeon");
+            setIsLoading(true);
+            const user = firebase.auth().currentUser;//trayendo el usuario logueado para tomar sus datos
+            const paylod = {
+                idUser: user.uid,
+                avatarUser: user.photoURL,
+                idParking: idParking,
+                title: titulo,
+                review: review,
+                rating: rating,
+                createAt: new Date(),
+            };
+            db.collection("Comentarios")
+                .add(paylod)
+                .then(() => {
+                    updateParking();
+                })
+                .catch(() => {
+                    toastRef.current.show("Error al enviar el comentario");
+                    setIsLoading(false);
+                });
         }
     }
+
+    const updateParking = () => {
+        const parkingRef = db.collection("parqueaderos").doc(idParking);
+
+        parkingRef.get().then((response) => {
+            const parkingData = response.data();
+            const ratingTotal = parkingData.ratingTotal + rating;
+            const quantityVoting = parkingData.quantityVoting + 1;//cantidad de usuarios que votan
+            const ratingResult = ratingTotal / quantityVoting;//obteniendo el rating referentes al ratinTotal y la catidad de usuarios que han votado
+            parkingRef
+                .update({
+                    rating: ratingResult,
+                    ratingTotal,
+                    quantityVoting,
+                })
+                .then(() => {
+                    setIsLoading(false);
+                    navigation.goBack();//redirigue a la screen anterior
+                });
+        });
+    };
 
     return (
         <ScrollView>
@@ -61,7 +102,7 @@ export default function AddReviewParking(props) {
 
                 </View>
                 <Toast ref={toastRef} position="center" opacity={0.9} />
-                <Loading isVisible={isLoading} text="Enviando comenario" />
+                <Loading isVisible={isLoading} text="Enviando comentario" />
             </View>
         </ScrollView>
 
@@ -100,6 +141,6 @@ const styles = StyleSheet.create({
         width: "95%"
     },
     btn: {
-        backgroundColor: "#0068a0",
+        backgroundColor: "#68a000",
     }
 })

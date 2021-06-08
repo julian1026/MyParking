@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native'
 import Loading from '../../components/Loading'
-import { Rating, ListItem, Icon } from 'react-native-elements'
+import { useFocusEffect } from "@react-navigation/native";
+import { Rating, ListItem } from 'react-native-elements'
 import { firebaseApp } from '../../utils/firebase'
 import { map } from 'lodash';
 import firebase from 'firebase/app'
@@ -25,15 +26,19 @@ export default function Parking2(props) {
 
 
     //obteniendo la informacion de un parqueadero en especifico
-    useEffect(() => {
-        db.collection("parqueaderos").doc(id).get().then((response) => {
-            const datos = response.data();
-            datos.id = response.id;
+    useFocusEffect(
+        useCallback(() => {
+            db.collection("parqueaderos").doc(id).get().then((response) => {
+                const datos = response.data();
+                datos.id = response.id;
 
-            setParqueaderoDatos(datos);
-            setRating(datos.rating)
-        })
-    }, [])
+                setParqueaderoDatos(datos);
+                setRating(datos.rating)
+            })
+        }, [])
+    );
+
+
 
 
     if (!parqueaderoDatos) return (<Loading isVisible={true} text="Cargango" />);

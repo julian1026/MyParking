@@ -74,7 +74,6 @@ function Parqueadero(props) {
 
     //funcion para ir a un parqueadero especifico
     const irParqueadero = () => {
-        console.log('ok');
         navigation.navigate("parking2", { id, nombre });
     }
 
