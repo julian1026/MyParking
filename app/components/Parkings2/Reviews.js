@@ -47,7 +47,7 @@ export default function Reviews(props) {
                         color: "#fff"
                     }}
                     onPress={() => navigation.navigate("addReviewParking", {
-                        idParking: idParking
+                        idParking: idParking,
                     })}
                 />
             ) : (

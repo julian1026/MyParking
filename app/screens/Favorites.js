@@ -22,7 +22,7 @@ const db = firebase.firestore(firebaseApp);
 
 export default function Favorites(props) {
     const { navigation } = props;
-    const [parkings, setParkings] = useState([]);
+    const [parkings, setParkings] = useState(null);
     const [userLogged, setUserLogged] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [reloadData, setReloadData] = useState(false);
@@ -83,20 +83,41 @@ export default function Favorites(props) {
     }
 
     //si no hay parquaderos, retorno el componente vacio.
-    if (parkings.length === 0) {
+    if (parkings?.length === 0) {
         return <NotFoundParkings />;
     }
 
-
     return (
-        <View>
-            <Text>
-                favorites...
-            </Text>
+        <View style={styles.viewBody}>
+            {parkings ? (
+                <FlatList
+                    data={parkings}
+                    renderItem={(parking) => (
+                        <Parking
+                            parking={parking}
+                            setIsLoading={setIsLoading}
+                            toastRef={toastRef}
+                            setReloadData={setReloadData}
+                            navigation={navigation}
+                        />
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+            ) : (
+                <View style={styles.loaderParkings}>
+                    <ActivityIndicator size="large" />
+                    <Text style={{ textAlign: "center" }}>Cargando parqueaderos</Text>
+                </View>
+            )}
+            <Toast ref={toastRef} position="center" opacity={0.9} />
+            <Loading text="Eliminando parqueadero" isVisible={isLoading} />
         </View>
     );
+
 }
 
+
+//componente paracuando no tengas parqueaderos en favoritos
 function NotFoundParkings() {
     return (
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -128,3 +149,133 @@ function UserNoLogged(props) {
         </View>
     );
 }
+
+
+//componente que devuelve cada parqueadero a la lista de favoritos
+function Parking(props) {
+    const { parking, setIsLoading, toastRef, setReloadData, navigation } = props;
+
+    const { nombre, id, imagenes } = parking.item;
+
+
+    //funcion que abre alerta
+    const confirmarRemoverFavorito = () => {
+        Alert.alert(
+            "Eliminar Parqueadero de Favoritos",
+            "¿Estas seguro de que quieres eliminar el parqueadero de favoritos?",
+            [
+                {
+                    text: "Cancelar",
+                    style: "cancel",
+                },
+                {
+                    text: "Eliminar",
+                    onPress: removerFavorito,
+                },
+            ],
+            { cancelable: false }
+        );
+    }
+
+    //funcion de eliminar parqueadero
+    const removerFavorito = () => {
+        setIsLoading(true);
+        db.collection("favoritos")
+            .where("idParking", "==", id)
+            .where("idUser", "==", firebase.auth().currentUser.uid)
+            .get()
+            .then((response) => {
+                response.forEach(doc => {
+                    idFavorito = doc.id;
+                    db.collection('favoritos').doc(idFavorito)
+                        .delete()
+                        .then(() => {
+                            setIsLoading(false);
+                            setReloadData(true);
+                            toastRef.current.show("Parqueadero eliminado correctamente");
+                        })
+                        .catch(() => {
+                            setIsLoading(false);
+                            toastRef.current.show("Error al eliminar el parqueadero");
+                        });
+                })
+            })
+    }
+
+
+
+    return (
+        <View style={styles.parking}>
+            <TouchableOpacity
+                onPress={() =>
+                    navigation.navigate("parkings2", {// navegacion con parametros
+                        screen: "parking2",
+                        params: { id, nombre },
+                    })
+                }
+            >
+                <Image
+                    resizeMode="cover"
+                    style={styles.image}
+                    PlaceholderContent={<ActivityIndicator color="#fff" />}
+                    source={
+                        imagenes[0]
+                            ? { uri: imagenes[0] }
+                            : require("../../assets/no-image.png")
+                    }
+                />
+                <View style={styles.info}>
+                    <Text style={styles.name}>{nombre}</Text>
+                    <Icon
+                        type="material-community"
+                        name="heart"
+                        color="#f00"
+                        containerStyle={styles.favorite}
+                        onPress={confirmarRemoverFavorito}
+                        underlayColor="transparent"
+                    />
+                </View>
+            </TouchableOpacity>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    viewBody: {
+        flex: 1,
+        backgroundColor: "#f2f2f2",
+    },
+    loaderParkings: {
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    parking: {
+        margin: 10,
+    },
+    image: {
+        width: "100%",
+        height: 180,
+    },
+    info: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexDirection: "row",
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
+        marginTop: -30,
+        backgroundColor: "#fff",
+    },
+    name: {
+        fontWeight: "bold",
+        fontSize: 30,
+    },
+    favorite: {
+        marginTop: -35,
+        backgroundColor: "#fff",
+        padding: 15,
+        borderRadius: 100,
+    },
+});
