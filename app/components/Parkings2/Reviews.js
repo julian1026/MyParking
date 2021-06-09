@@ -28,7 +28,6 @@ export default function Reviews(props) {
                 response.forEach((doc) => {
                     const data = doc.data();
                     data.id = doc.id;
-                    console.log(data);
                     resultReview.push(data);
                 });
                 setComentarios(resultReview);

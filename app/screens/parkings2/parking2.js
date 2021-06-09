@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native'
 import Loading from '../../components/Loading'
 import { useFocusEffect } from "@react-navigation/native";
-import { Rating, ListItem } from 'react-native-elements'
+import { Rating, ListItem, Icon } from 'react-native-elements'
 import { firebaseApp } from '../../utils/firebase'
 import { map } from 'lodash';
+import Toast from 'react-native-easy-toast';
 import firebase from 'firebase/app'
 import "firebase/firestore";
 import Carousels from '../../components/Carousel';
@@ -22,10 +23,19 @@ export default function Parking2(props) {
     const { id, nombre } = route.params;
     const [parqueaderoDatos, setParqueaderoDatos] = useState(null);
     const [rating, setRating] = useState(0);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [userLogged, setUserLogged] = useState(false);
+    const toastRef = useRef();
+
+    //verificando si el usuario esta logeado
+    firebase.auth().onAuthStateChanged((user) => {
+        user ? setUserLogged(true) : setUserLogged(false);
+    });
+
     navigation.setOptions({ title: nombre })//nombre del parqueadero
 
 
-    //obteniendo la informacion de un parqueadero en especifico
+    //obteniendo la informacion de un parqueadero en especifico, se ejecuta cada ves que selecciono la screen
     useFocusEffect(
         useCallback(() => {
             db.collection("parqueaderos").doc(id).get().then((response) => {
@@ -38,7 +48,67 @@ export default function Parking2(props) {
         }, [])
     );
 
+    //comprobando si el restaurante esta en favoritos 
 
+    useEffect(() => {
+        if (userLogged && parqueaderoDatos) {
+            db.collection('favoritos')
+                .where('idParking', '==', parqueaderoDatos.id)
+                .where('idUser', '==', firebase.auth().currentUser.uid)
+                .get()
+                .then((response) => {
+                    if (response.docs.length === 1) {
+                        setIsFavorite(true);
+                    }
+                })
+        }
+    }, [userLogged, parqueaderoDatos])
+
+
+
+    //guardando parqueadero en favoritos
+    const addFavorite = () => {
+
+        if (!userLogged) {
+            toastRef.current.show('Debe estar logeado para poder agregar este parqueadero a favoritos...', 2000);
+        } else {
+            const payload = {
+                idUser: firebase.auth().currentUser.uid,
+                idParking: parqueaderoDatos.id
+            };
+            db.collection('favoritos')
+                .add(payload)
+                .then(() => {
+                    setIsFavorite(true);
+                    toastRef.current.show('Parqueadero agregado a favoritos');
+                }).catch(() => {
+                    toastRef.current.show('Error al agregar el parqueadero a favoritos');
+                })
+        }
+    }
+
+
+    //eliminando de favoritos
+    const removeFavorite = () => {
+        db.collection('favoritos')
+            .where('idParking', '==', parqueaderoDatos.id)
+            .where('idUser', '==', firebase.auth().currentUser.uid)
+            .get()
+            .then((response) => {
+                response.forEach(doc => {
+                    const idFavorito = doc.id;
+                    db.collection('favoritos')
+                        .doc(idFavorito)
+                        .delete()
+                        .then(() => {
+                            setIsFavorite(false);
+                            toastRef.current.show('Eliminado de Favoritos', 1000);
+                        }).catch(() => {
+                            toastRef.current.show('Error al eliminar el parqueadero de favoritos');
+                        })
+                });
+            })
+    }
 
 
     if (!parqueaderoDatos) return (<Loading isVisible={true} text="Cargango" />);
@@ -46,6 +116,16 @@ export default function Parking2(props) {
 
     return (
         <ScrollView vertical style={styles.viewBody} >
+            <View style={styles.viewFavorite}>
+                <Icon
+                    type="material-community"
+                    name={isFavorite ? "heart" : "heart-outline"}
+                    onPress={isFavorite ? removeFavorite : addFavorite}
+                    color={isFavorite ? "#f00" : "#000"}
+                    size={35}
+                    underlayColor="transparent"
+                />
+            </View>
             <Carousels
                 arrayImages={parqueaderoDatos.imagenes}
                 height={250}
@@ -68,6 +148,7 @@ export default function Parking2(props) {
                 idParking={parqueaderoDatos.id}
                 setRating={setRating}
             />
+            <Toast ref={toastRef} position="center" opacity={0.9} />
         </ScrollView>
     )
 }
@@ -178,4 +259,14 @@ const styles = StyleSheet.create({
         padding: 5,
         paddingLeft: 15,
     },
+    viewFavorite: {
+        position: "absolute",
+        top: 0,
+        right: 0,
+        zIndex: 2,
+        backgroundColor: "#fff",
+        borderBottomLeftRadius: 100,
+        padding: 5,
+        paddingLeft: 15,
+    }
 })
