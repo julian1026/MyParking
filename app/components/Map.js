@@ -13,6 +13,7 @@ export default function Map(props) {
             longitude: locacion.longitude,
             zoom: 19,
             query: nombre
+
         })
     }
 

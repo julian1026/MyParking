@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements'
 
 import AccountStack from './AccountStack';
 import FavoriteStack from './FavoriteStack';
-import ParkingStack from './ParkingStack';
+import SearchStack from './SearchStack';
 import TopParkingStack from './TopParkingStack';
 import UbicationStack from './UbicationStack';
 import Parking2Stack from './Parkings2Stack';
@@ -48,8 +48,8 @@ export default function Navigation() {
                 />
 
                 <Tab.Screen
-                    name='parkings'
-                    component={ParkingStack}
+                    name='search'
+                    component={SearchStack}
                     options={{ title: "Buscar" }}
                 />
 
@@ -87,7 +87,7 @@ function screenOptions(route, color) {
             iconName = 'heart-outline'
             break;
 
-        case 'parkings':
+        case 'search':
             iconName = 'magnify'
             break;
 

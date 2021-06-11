@@ -15,7 +15,7 @@ export default function ParkingStack() {
                 name='parkings2'
                 component={Parkings2}
                 options={{
-                    title: 'Parqueaderos2'
+                    title: 'Parqueaderos del Sistema'
                 }}
             />
             <Stack.Screen

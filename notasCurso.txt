@@ -89,6 +89,9 @@ yarn add react-native-open-maps@~0.3.5
 
 
 
+==paquete para realizar consultas en firesql
+
+yarn add firesql@~2.0.2
 
 
 

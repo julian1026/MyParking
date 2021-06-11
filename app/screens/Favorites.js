@@ -22,7 +22,7 @@ const db = firebase.firestore(firebaseApp);
 
 export default function Favorites(props) {
     const { navigation } = props;
-    const [parkings, setParkings] = useState(null);
+    const [parkings, setParkings] = useState([]);
     const [userLogged, setUserLogged] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [reloadData, setReloadData] = useState(false);
