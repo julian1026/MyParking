@@ -10,7 +10,19 @@ const Stack = createStackNavigator();
 
 export default function ParkingStack() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#008080',
+                    borderBottomRightRadius: 10,
+                    borderBottomLeftRadius: 10
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold'
+                }
+            }}
+        >
             <Stack.Screen
                 name='parkings2'
                 component={Parkings2}

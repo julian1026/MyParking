@@ -42,6 +42,7 @@ export default function Ubication() {
 
     );
 
+
     //si parqueaderos no tiene datos devuelve un loading de carga
     if (!parqueaderos) return (<Loading isVisible={true} text="Cargango" />);
 
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     viewBody: {
-        flex: 1,
+        flex: 2,
         backgroundColor: '#fff'
     }
 })

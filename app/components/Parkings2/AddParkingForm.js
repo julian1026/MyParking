@@ -357,8 +357,12 @@ const styles = StyleSheet.create({
         margin: 0
     },
     btnAddParking: {
-        backgroundColor: "#00af8a",
-        margin: 20
+        backgroundColor: "#008080",
+        margin: 20,
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10
     },
     viewImage: {
         flexDirection: "row",

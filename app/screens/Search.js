@@ -31,6 +31,7 @@ export default function Search(props) {
                 onChangeText={(e) => setSearch(e)}
                 value={search}
                 containerStyle={styles.searchBar}
+                inputStyle={{ backgroundColor: "white" }}
             />
 
             {parkings.length === 0 ? (
@@ -59,7 +60,7 @@ function NoFoundParkings() {
     return (
         <View style={{ flex: 1, alignItems: "center" }}>
             <Image
-                source={require("../../assets/not-park.png")}
+                source={require("../../assets/not-found-park.png")}
                 resizeMode="cover"
                 style={{ width: 200, height: 200 }}
             />
@@ -77,7 +78,7 @@ function Parking(props) {
             leftAvatar={{
                 source: imagenes[0]
                     ? { uri: imagenes[0] }
-                    : require("../../assets/not-park.png"),
+                    : require("../../assets/not-found-park.png"),
             }}
             rightIcon={<Icon type="material-community" name="chevron-right" />}
             onPress={() =>
@@ -94,5 +95,11 @@ function Parking(props) {
 const styles = StyleSheet.create({
     searchBar: {
         marginBottom: 20,
+        backgroundColor: "white",
+        marginTop: 15,
+        borderBottomColor: 'white',
+        borderTopColor: 'white'
+
+
     },
 });

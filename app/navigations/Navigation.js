@@ -15,15 +15,30 @@ const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
     return (
-        <NavigationContainer>
+        <NavigationContainer
+
+        >
             <Tab.Navigator
+
                 initialRouteName='ubication' // app inicie en el boton restaurants
                 tabBarOptions={{   // se controla los colores del tabBar
+                    // showLabel: false,
                     inactiveTintColor: '#070707',//color general tabOptin
-                    activeTintColor: '#00A680',//color especifico
-                    //00A680  #070707
+                    activeTintColor: '#f5fffa',//color especifico del item
+                    style: {
+                        // position: 'absolute',
+                        // bottom: 10,
+                        // left: 10,
+                        // right: 10,
+                        // borderRadius: 10,
+                        elevation: 50,
+                        backgroundColor: '#008080',
+                        height: 60,
+                        borderTopLeftRadius: 10,
+                        borderTopRightRadius: 10
+                    }
                 }}
-
+                //#b0c4de
                 // en esta parte cargo la funcion que me permitira cargar iconos
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ color }) => screenOptions(route, color),
@@ -31,6 +46,7 @@ export default function Navigation() {
             >
 
                 <Tab.Screen
+
                     name='ubication'
                     component={UbicationStack}
                     options={{ title: "Ubicacion" }}

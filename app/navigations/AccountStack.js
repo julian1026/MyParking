@@ -12,9 +12,21 @@ const Stack = createStackNavigator();
 export default function AccountStack() {
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#008080',
+                    borderBottomRightRadius: 10,
+                    borderBottomLeftRadius: 10
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold'
+                }
+            }}
+        >
             <Stack.Screen
-                name='account'
+                name="account"
                 component={Account}
                 options={{
                     title: 'Mi Cuenta'
@@ -22,7 +34,7 @@ export default function AccountStack() {
             />
 
             <Stack.Screen
-                name='login'
+                name="login"
                 component={Login}
                 options={{ title: 'Iniciar Sesion' }}
             />

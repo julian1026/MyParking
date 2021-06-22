@@ -124,7 +124,7 @@ function NotFoundParkings() {
             <Icon type="material-community" name="alert-outline" size={50} />
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                 No tienes parqueaderos en tu lista
-        </Text>
+            </Text>
         </View>
     );
 }
@@ -139,12 +139,18 @@ function UserNoLogged(props) {
             <Icon type="material-community" name="alert-outline" size={50} />
             <Text style={{ fontSize: 20, fontWeight: "bold", textAlign: "center" }}>
                 Necesitas estar logeado para ver esta sección
-        </Text>
+            </Text>
             <Button
                 title="Ir al login"
                 containerStyle={{ marginTop: 20, width: "80%" }}
-                buttonStyle={{ backgroundColor: "#00a680" }}
-                onPress={() => navigation.navigate("login")}
+                buttonStyle={{
+                    backgroundColor: "#008080",
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10
+                }}
+                onPress={() => navigation.navigate("account", { screen: "login" })}
             />
         </View>
     );
@@ -243,7 +249,7 @@ function Parking(props) {
 const styles = StyleSheet.create({
     viewBody: {
         flex: 1,
-        backgroundColor: "#f2f2f2",
+        backgroundColor: "#fff",
     },
     loaderParkings: {
         marginTop: 10,
@@ -266,15 +272,15 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         marginTop: -30,
-        backgroundColor: "#fff",
+        backgroundColor: "#f0ffff",
     },
     name: {
         fontWeight: "bold",
-        fontSize: 30,
+        fontSize: 20,
     },
     favorite: {
         marginTop: -35,
-        backgroundColor: "#fff",
+        backgroundColor: "#f0ffff",
         padding: 15,
         borderRadius: 100,
     },

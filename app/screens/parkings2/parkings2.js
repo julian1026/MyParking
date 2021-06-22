@@ -101,7 +101,7 @@ export default function Parkings2(props) {
                 <Icon
                     type="material-community"
                     name="plus"
-                    color="#00a680"
+                    color="#008080"
                     reverse
                     containerStyle={styles.btnContainer}
                     onPress={() => navigation.navigate('addParqueaderos2')}

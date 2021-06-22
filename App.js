@@ -13,6 +13,7 @@ export default function App() {
   if (!global.btoa) global.btoa = encode;
   if (!global.atob) global.atob = decode;
   return (
+
     <Navigation />
   );
 }

@@ -108,7 +108,11 @@ const styles = StyleSheet.create({
         color: '#c1c1c1'
     },
     BtnStyle: {
-        backgroundColor: '#00a680',
+        backgroundColor: '#008080',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10
     },
     btnRegister: {
         marginTop: 20,

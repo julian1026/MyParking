@@ -68,6 +68,7 @@ const Parking = (props) => {
                     <Text style={styles.title}>{nombre}</Text>
                     <Rating imageSize={20} startingValue={rating}
                         readonly//no permite modificar las estrellas
+                        style={{ backgroundColor: "grey" }}
                     />
                 </View>
                 <Text style={styles.description}>{descripcion}</Text>
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
     containerCard: {
         marginBottom: 30,
         borderWidth: 0,
+        backgroundColor: '#f0ffff'
     },
     containerIcon: {
         position: "absolute",

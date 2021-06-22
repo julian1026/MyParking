@@ -77,10 +77,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     BtnStyle: {
-        backgroundColor: '#00a680',
+        backgroundColor: '#008080',
+
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10
     },
     btnContainer: {
-        width: '70%'
+        width: '70%',
+
     }
 
 

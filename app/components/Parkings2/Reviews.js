@@ -54,7 +54,7 @@ export default function Reviews(props) {
                 <View>
 
                     <Text style={{ textAlign: "center", color: "#00a680", padding: 20 }}
-                        onPress={() => navigation.navigate("login")}>
+                        onPress={() => navigation.navigate("account", { screen: "login" })}>
                         Para poder escribir un comentario es necesario estar logeado {" "}
                         <Text style={{ fontWeight: "bold" }}>
                             pulsa AQUI para iniciar sesion
@@ -97,8 +97,8 @@ function Review(props) {
                 <Rating imageSize={15} startingValue={rating} readonly />
                 <Text style={styles.reviewDate}>
                     {createReview.getDate()}/{createReview.getMonth() + 1}/
-            {createReview.getFullYear()} - {createReview.getHours()}:
-            {createReview.getMinutes() < 10 ? "0" : ""}
+                    {createReview.getFullYear()} - {createReview.getHours()}:
+                    {createReview.getMinutes() < 10 ? "0" : ""}
                     {createReview.getMinutes()}
                 </Text>
             </View>
@@ -109,7 +109,12 @@ function Review(props) {
 
 const styles = StyleSheet.create({
     BtnStyle: {
-        backgroundColor: '#68a000',
+        backgroundColor: '#008080',
+        margin: 10,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
     },
     btnRegister: {
         marginTop: 10,

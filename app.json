@@ -20,7 +20,7 @@
       "supportsTablet": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/splash.png"
     },
     "android": {
       "permissions": [

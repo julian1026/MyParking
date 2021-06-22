@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
     },
     viewParking: {
         flexDirection: 'row',
-        margin: 10
+        margin: 10,
+        backgroundColor: '#f0ffff'
     },
     viewParkingImage: {
         marginRight: 15
