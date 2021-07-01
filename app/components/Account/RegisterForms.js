@@ -5,9 +5,15 @@ import { Input, Icon, Button } from 'react-native-elements'
 import Loading from '../Loading'
 import { validateEmail } from '../../utils/validations'
 import { size, isEmpty } from 'lodash'
-import * as firebase from 'firebase'
+// import * as firebase from 'firebase'
 import { useNavigation } from '@react-navigation/native'
 
+import { firebaseApp } from '../../utils/firebase';
+import firebase from 'firebase/app';
+import 'firebase/storage';
+import "firebase/firestore";
+
+const db = firebase.firestore(firebaseApp);
 
 export default function RegisterForm(props) {
     const { toastRef } = props;
@@ -34,8 +40,7 @@ export default function RegisterForm(props) {
                 .auth()
                 .createUserWithEmailAndPassword(FormData.email, FormData.pass)
                 .then(() => {
-                    setloading(false);
-                    navigation.navigate('account')
+                    createUser();
                 })
                 .catch(err => {
                     setloading(false);
@@ -43,7 +48,34 @@ export default function RegisterForm(props) {
                 });
         }
     }
-    // console.log(FormData)
+
+    //creando coleccion users
+    const createUser = () => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const id = user.uid;
+                const globalUser = user.providerData[0];
+                const dataUser = {
+                    displayName: globalUser.displayName,
+                    email: globalUser.email,
+                    rol: 'user',
+                    photoURL: null,
+                    status: true
+                }
+                db.collection("users").doc(id).set(dataUser)
+                    .then(() => {
+                        setloading(false);
+                        navigation.navigate('account')
+                    })
+                    .catch((error) => {
+                        console.error("Error adding document: ", error);
+                    });
+            }
+
+        })
+    }
+
+
     const onChange = (e, type) => {
         // console.log(type)
         // console.log(e.nativeEvent.text)

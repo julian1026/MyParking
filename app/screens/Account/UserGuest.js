@@ -9,7 +9,7 @@ export default function UserGuest() {
 
 
     const Navigation = useNavigation();
-    console.log(Navigation);
+    // console.log(Navigation);
     return (
         <ScrollView
             centerContent={true}

@@ -181,6 +181,8 @@ export default function Mapa2(props) {
     },
   ];
 
+
+  //alert sin funcionalida
   const mostrarDatos = (nombre, coordenadas, metadata) => {
     Alert.alert(
       `Parqueadero  ${nombre}`,
@@ -200,19 +202,8 @@ export default function Mapa2(props) {
     );
   }
 
-  const openAppMap = (coordenadas, nombre) => {
-    openMap(
-      {
-        // latitude: coordenadas.latitude,
-        // longitude: coordenadas.longitude,
-        end: `${coordenadas.latitude},${coordenadas.longitude}`,
-        navigate_mode: 'navigate',
-        query: nombre,
-        zoom: 20,
-      }
-    )
-  }
-  // provider: 'apple',
+
+
   return (
     <View style={{ flex: 1 }}>
       <MapView
@@ -227,30 +218,35 @@ export default function Mapa2(props) {
       //customMapStyle={customStyle}  //cambio a modo oscuro el mapa
       >
         {isLoading ? null : parqueaderos.map((marker, index) => {
-          const coords = {
-            latitude: marker.locacion.latitude,
-            longitude: marker.locacion.longitude,
-          };
+          if (marker.estado) {
+            const coords = {
+              latitude: marker.locacion.latitude,
+              longitude: marker.locacion.longitude,
+            };
 
-          const metadata = `Direccion: ${marker.direccion}`;
-          const imagen = marker.imagenes[0];
-          return (
-            <MapView.Marker
-              key={index}
-              coordinate={coords}
-              title={marker.nombre}
-              // description={metadata}
-              onPress={() => {
-                setIsVisibleShow(true)
-                setName(marker.nombre)
-                setCoordenadas(coords);
-                setDescripcion(marker.direccion)
-                setImagenParking(imagen);
+            const metadata = `Direccion: ${marker.direccion}`;
+            const imagen = marker.imagenes[0];
+            return (
+              <MapView.Marker
+                key={index}
+                coordinate={coords}
+                title={marker.nombre}
+                // description={metadata}
+                onPress={() => {
+                  setIsVisibleShow(true)
+                  setName(marker.nombre)
+                  setCoordenadas(coords);
+                  setDescripcion(marker.direccion)
+                  setImagenParking(imagen);
 
-              }}
-            />
-          );
-        })}
+                }}
+              />
+            );
+          }
+        }
+
+        )}
+
       </MapView>
 
 
@@ -280,10 +276,11 @@ function LetsGoParking(props) {
         // latitude: coordenadas.latitude,
         // longitude: coordenadas.longitude,
         end: `${coordenadas.latitude},${coordenadas.longitude}`,
-        navigate_mode: 'navigate',
+        navigate_mode: 'navigate',//de una abre  la ruta de google maps
         query: name,
         zoom: 20,
       }
+      // provider: 'apple',
     )
   }
 
@@ -294,7 +291,7 @@ function LetsGoParking(props) {
         isVisibleShow ? (
           <View >
             <View style={styles.boxView}>
-              <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 15, marginTop: 10 }}>MyParking</Text>
+              <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 15, marginTop: 10 }}>{name}</Text>
               <Image
                 style={{
                   width: 200,
@@ -307,7 +304,6 @@ function LetsGoParking(props) {
                 source={imagenParking ? { uri: imagenParking } : require('../../../assets/not-found-park.png')}
 
               />
-              <Text>Parqueadero : {name} </Text>
               <Text>Direccion : {descripcion} </Text>
               <Text> Coordenadas : {coordenadas.latitude}</Text>
               <Text> Gas CO :</Text>

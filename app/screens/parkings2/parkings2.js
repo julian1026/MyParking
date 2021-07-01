@@ -8,6 +8,7 @@ import firebase from 'firebase/app'
 import "firebase/firestore";
 
 import ListParking from '../../components/Parkings2/ListParking';
+import { conforms } from 'lodash';
 
 const db = firebase.firestore(firebaseApp);
 
@@ -22,13 +23,8 @@ export default function Parkings2(props) {
 
 
 
-    //si el usuario esta logeado muestra boton 
-    useEffect(() => {
-        firebase.auth().onAuthStateChanged((userInfo) => {
-            // console.log(userInfo.email)
-            setUser(userInfo);
-        })
-    }, []);
+
+
 
     //esta funcion vuelve cargar los parqueadros cada ves que se selecione la screen
     useFocusEffect(
@@ -36,7 +32,7 @@ export default function Parkings2(props) {
             db.collection('parqueaderos').get().then((snap) => { // trayendo la collection paequeaderos de firestore
                 setTotalParqueaderos(snap.size);
             })
-
+            showIcon();
             const resultParking = [];
 
             db.collection("parqueaderos")
@@ -51,10 +47,45 @@ export default function Parkings2(props) {
                     })
                     setParqueaderos(resultParking);
                 })
+
+
         }, [])
 
     );
 
+
+
+    //si el usuario esta logeado y con rol admin muestra boton 
+    const showIcon = () => {
+        firebase.auth().onAuthStateChanged((userInfo) => {
+
+            if (userInfo) {
+
+                //consulta si existe ese usuario en la bd
+                db.collection("users").doc(userInfo.uid).get().then((response) => {
+
+                    let rol = response.data().rol;
+                    if (rol) {
+
+                        if (rol == 'admin') {
+                            console.log(response.data().rol);
+                            setUser(true);
+                        } else {
+                            console.log('no tiene acceso')
+                            setUser(false);
+                        }
+
+                    }
+                }).catch((error) => {
+                    console.log('andres')
+                    console.log(error);
+                })
+            } else {
+                setUser(false)
+            }
+
+        })
+    }
 
 
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import * as firebase from 'firebase';
-import { set } from 'lodash';
+
 
 
 export default function ChangeDisplayNameForm(props) {
@@ -15,11 +15,11 @@ export default function ChangeDisplayNameForm(props) {
 
 
     const onSubmit = () => {
-
+        setError(null);
         if (!newDisplayName) {
-            setError('El nombre no puede estar vacio.');
-        } else if (newDisplayName === displayName) {
-            setError('El nombre no puede ser igual al actual.')
+            setError("El nombre no puede estar vacio.");
+        } else if (displayName === newDisplayName) {
+            setError("El nombre no puede ser igual al actual.");
         } else {
             setIsLoading(true)
             const update = {
@@ -29,10 +29,8 @@ export default function ChangeDisplayNameForm(props) {
                 .auth()
                 .currentUser.updateProfile(update)
                 .then(() => {
-                    // console.log('ok');
-                    setIsLoading(false);//cerrando el spiner de carga
-                    setReloadUseInfo(true);
-                    setShowModal(false);//cerrando el modal
+                    updateUserName();
+
                 })
                 .catch(() => {
                     console.log('Error al actualizar el nombre');
@@ -40,6 +38,24 @@ export default function ChangeDisplayNameForm(props) {
                 })
         }
     }
+
+    const updateUserName = () => {
+        firebase.auth().onAuthStateChanged((user) => {
+            const update = {
+                displayName: newDisplayName
+            }
+            firebase.firestore().collection("users").doc(user.uid).update(update)
+                .then(() => {
+                    setIsLoading(false);//cerrando el spiner de carga
+                    setReloadUseInfo(true);
+                    setShowModal(false);//cerrando el modal
+                }).catch((error) => {
+
+                })
+        })
+
+    }
+
     return (
         <View style={styles.view}>
             <Input
@@ -52,7 +68,7 @@ export default function ChangeDisplayNameForm(props) {
                     color: "#c2c2c2"
                 }}
                 defaultValue={displayName || ""}
-                onChange={(e) => setNewDisplayName(e.nativeEvent.text)}//en esta variable capturo el valor  cajatexto
+                onChange={(e) => setNewDisplayName(e.nativeEvent.text)}
                 errorMessage={error}
             />
             <Button

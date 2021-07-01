@@ -52,6 +52,7 @@ export default function AddParkingForm(props) {
                         imagenes: response,
                         rating: 0,
                         ratingTotal: 0,
+                        estado: true,
                         quantityVoting: 0,
                         createAt: new Date(),
                         createBy: firebase.auth().currentUser.uid,
