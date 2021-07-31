@@ -25,7 +25,7 @@
     "firesql": "~2.0.2",
     "global": "^4.4.0",
     "install": "^0.13.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "mapview": "^1.0.0",
     "random-uuid-v4": "~0.0.9",
     "react": "~16.11.0",
@@ -41,7 +41,7 @@
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",
     "react-native-snap-carousel": "~3.9.0",
-    "react-native-web": "~0.11.7",
+    "react-native-web": "^0.17.1",
     "upgrade": "^1.1.0"
   },
   "devDependencies": {
