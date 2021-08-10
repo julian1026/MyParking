@@ -6,6 +6,8 @@ import { size } from 'lodash';
 import MapView from 'react-native-maps';
 import openMap from "react-native-open-maps";
 
+import { variablesAmbientales } from '../../data/data.json'
+
 import Modal from '../modal';
 import Loading from '../../components/Loading'
 
@@ -17,6 +19,7 @@ export default function Mapa2(props) {
   const [coordenadas, setCoordenadas] = useState([]);
   const [descripcion, setDescripcion] = useState(null);
   const [imagenParking, setImagenParking] = useState(null);
+  const [valorAmbiental, setvalorAmbiental] = useState(null);
 
   //mapa personalizado
   const customStyle = [
@@ -203,6 +206,19 @@ export default function Mapa2(props) {
   }
 
 
+  //asignando la variable ambiantal a cada parqueadero
+  const asignarVariableAmbiental = (id) => {
+    let corte = 15;
+    if (variablesAmbientales[id]) {
+      let datos = variablesAmbientales[id].slice(0, corte); //asignando tamano fijo del array
+      let dividendo = datos.reduce((a, b) => a + b, 0);
+      let valor = dividendo / corte;
+      return valor;
+    }
+
+    return null;
+
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -211,7 +227,7 @@ export default function Mapa2(props) {
         style={{ flex: 2, }}
         region={{
           latitude: 2.4412507,
-          longitude: -76.6052077,
+          longitude: -76.6079997,
           latitudeDelta: 0.0100,
           longitudeDelta: 0.0100,
         }}
@@ -238,6 +254,7 @@ export default function Mapa2(props) {
                   setCoordenadas(coords);
                   setDescripcion(marker.direccion)
                   setImagenParking(imagen);
+                  setvalorAmbiental(() => asignarVariableAmbiental(marker.id))
 
                 }}
               />
@@ -251,7 +268,7 @@ export default function Mapa2(props) {
 
 
       <LetsGoParking isVisibleShow={isVisibleShow} setIsVisibleShow={setIsVisibleShow}
-        name={name} coordenadas={coordenadas} descripcion={descripcion} imagenParking={imagenParking}
+        name={name} coordenadas={coordenadas} descripcion={descripcion} imagenParking={imagenParking} valorAmbiental={valorAmbiental}
       />
 
 
@@ -265,7 +282,7 @@ export default function Mapa2(props) {
 
 function LetsGoParking(props) {
   const { isVisibleShow, setIsVisibleShow
-    , name, coordenadas, descripcion, imagenParking } = props;
+    , name, coordenadas, descripcion, imagenParking, valorAmbiental } = props;
 
 
   const openAppMap = () => {
@@ -305,8 +322,8 @@ function LetsGoParking(props) {
 
               />
               <Text>Direccion : {descripcion} </Text>
-              <Text> Coordenadas : {coordenadas.latitude}</Text>
-              <Text> Gas CO :</Text>
+
+              <Text> Gas CO : {valorAmbiental || 'no tiene monitoreo'}</Text>
 
 
             </View>

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from "@react-navigation/native";
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Avatar, Rating } from 'react-native-elements';
 import { map } from 'lodash';
@@ -19,20 +20,25 @@ export default function Reviews(props) {
 
 
     //trayendo todos los comentarios de un solo parqueadero desde firestore
-    useEffect(() => {
-        db.collection("Comentarios")
-            .where("idParking", "==", idParking)
-            .get()
-            .then((response) => {
-                const resultReview = [];
-                response.forEach((doc) => {
-                    const data = doc.data();
-                    data.id = doc.id;
-                    resultReview.push(data);
+
+
+    useFocusEffect(
+        useCallback(() => {
+            db.collection("Comentarios")
+                .where("idParking", "==", idParking)
+                .get()
+                .then((response) => {
+                    const resultReview = [];
+                    response.forEach((doc) => {
+                        const data = doc.data();
+                        data.id = doc.id;
+                        resultReview.push(data);
+                    });
+                    setComentarios(resultReview);
                 });
-                setComentarios(resultReview);
-            });
-    }, []);
+        }, [])
+
+    );
 
     return (
         <View>

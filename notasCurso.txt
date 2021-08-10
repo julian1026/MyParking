@@ -95,7 +95,8 @@ yarn add firesql@~2.0.2
 
 
 
-
+y =laitud
+x=longitud
 
 
 

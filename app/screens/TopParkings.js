@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-easy-toast";
 
 import { firebaseApp } from "../utils/firebase";
@@ -16,22 +17,26 @@ export default function TopParkings(props) {
     const toastRef = useRef();
 
     //trayendo los 5 primesros parqueaderos
-    useEffect(() => {
-        db.collection("parqueaderos")
-            .orderBy("rating", "desc")
-            .limit(5)
-            .get()
-            .then((response) => {
-                const parkingArray = [];
-                response.forEach((doc) => {
-                    const data = doc.data();
-                    data.id = doc.id;
-                    parkingArray.push(data);
-                });
-                setParkings(parkingArray);
-            });
-    }, []);
 
+
+    useFocusEffect(
+        useCallback(() => {
+            db.collection("parqueaderos")
+                .orderBy("rating", "desc")
+                .limit(5)
+                .get()
+                .then((response) => {
+                    const parkingArray = [];
+                    response.forEach((doc) => {
+                        const data = doc.data();
+                        data.id = doc.id;
+                        parkingArray.push(data);
+                    });
+                    setParkings(parkingArray);
+                });
+        }, [])
+
+    );
 
     return (
         <View>
